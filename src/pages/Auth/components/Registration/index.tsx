@@ -1,110 +1,107 @@
-import { useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { ContextType } from '../../index.tsx';
-
+import clsx from 'clsx';
+import Input from '@components/Form/Input';
+import User from '@assets/icons/User/index.tsx';
+import Mail from '@assets/icons/Mail/index.tsx';
+import Lock from '@assets/icons/Lock/index.tsx';
 const Registration = () => {
   const [email, setEmail] = useOutletContext<ContextType>();
 
   return (
-    <div>
-      <h2 className="mb-4">Create Account</h2>
-      <form>
-        <div className="mb-6 grid gap-6 md:grid-cols-2">
-          <div>
-            <label
-              htmlFor="first_name"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="first_name"
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder="John"
-              required
-            />
-          </div>
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="email"
-            className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Email address
-          </label>
-          <input
+    <div
+      className={clsx(
+        'flex',
+        'content-center',
+        'items-center',
+        'justify-center',
+        'text-black',
+        'w-100'
+      )}
+    >
+      <div className={clsx('grid', 'max-w-screen-sm', 'w-full')}>
+        <h2 className={clsx('mb-4', 'text-black', 'text-5xl')}>
+          Create Account
+        </h2>
+
+        <form className={clsx('mt-5', 'justify-center', 'items-center')}>
+          <Input
+            type="text"
+            id="name"
+            placeholder="Name"
+            required
+            startIcon={<User />}
+          />
+          <Input
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
             type="email"
             id="email"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-            placeholder="john.doe@company.com"
+            startIcon={<Mail />}
+            placeholder="Email"
             required
           />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="password"
-            className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Password
-          </label>
-          <input
+
+          <Input
             type="password"
             id="password"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-            placeholder="•••••••••"
+            placeholder="Password"
+            startIcon={<Lock />}
             required
           />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="confirm_password"
-            className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Confirm password
-          </label>
-          <input
+          <Input
             type="password"
-            id="confirm_password"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-            placeholder="•••••••••"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+            startIcon={<Lock />}
             required
           />
-        </div>
-        <div className="mb-6 flex items-start">
-          <div className="flex h-5 items-center">
-            <input
+          <div className="mb-6 flex items-start">
+            <Input
+              containerClassName={clsx('flex', 'h-5', 'items-center')}
               id="remember"
               type="checkbox"
               value=""
               className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               required
             />
-          </div>
-          <label
-            htmlFor="remember"
-            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            I agree with the{' '}
-            <a
-              href="#"
-              className="text-blue-600 hover:underline dark:text-blue-500"
+            <label
+              htmlFor="remember"
+              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
-              terms and conditions
-            </a>
-            .
-          </label>
-        </div>
-        <button
-          type="submit"
-          className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Submit
-        </button>
-      </form>
+              I agree with the{' '}
+              <Link
+                to="#"
+                className={clsx(
+                  'text-blue-600',
+                  'hover:underline',
+                  'dark:text-blue-500'
+                )}
+              >
+                terms and conditions
+              </Link>
+              .
+            </label>
+          </div>
+          <button
+            type="submit"
+            className={clsx(
+              'grid',
+              'max-w-80',
+              'w-full',
+              'mx-auto',
+              'text-white',
+              'bg-blue-600',
+              'p-3',
+              'from-cyan-500 to-blue-500 hover:bg-gradient-to-bl'
+            )}
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -32,7 +32,7 @@ const Auth = () => {
         )}
       >
         <div className={clsx('max-h-300px', 'max-w-screen-sm')}>
-          <h1 className={clsx('mb-9')}>Create Account!</h1>
+          <h1 className={clsx('mb-9')}>Create Account</h1>
           <p className={clsx('text-lg', 'mb-9')}>
             To keep connected with us please login with your personal info
           </p>
@@ -43,14 +43,16 @@ const Auth = () => {
               'flex',
               'justify-center',
               'rounded-xl',
-              'p-2',
+              'p-3',
               'border-2',
               'border-solid',
               'border-white',
               'text-white',
               'hover:bg-white',
               'hover:border-blue-400',
-              'hover:text-blue-600'
+              'hover:text-blue-600',
+              'max-w-80',
+              'mx-auto'
             )}
           >
             Registration

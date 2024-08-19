@@ -1,9 +1,8 @@
 import { useOutletContext } from 'react-router-dom';
 import clsx from 'clsx';
-import Facebook from '@assets/icons/Facebook';
-import Google from '@assets/icons/Google';
-import Linkedin from '@assets/icons/Linkedin';
 import { ContextType } from '@pages/Auth';
+import Social from '@pages/Auth/components/Social';
+import Input from '@components/Form/Input';
 
 const Login = () => {
   const [email, setEmail] = useOutletContext<ContextType>();
@@ -11,6 +10,7 @@ const Login = () => {
   return (
     <div
       className={clsx(
+        'flex',
         'content-center',
         'items-center',
         'justify-center',
@@ -18,68 +18,43 @@ const Login = () => {
         'w-100'
       )}
     >
-      <div className={clsx('grid', 'max-w-screen-sm')}>
-        <h2 className={clsx('mb-4', 'text-5xl')}>Create Account</h2>
+      <div className={clsx('grid', 'max-w-screen-sm', 'w-full')}>
+        <h2 className={clsx('mb-4', 'text-5xl')}>Welcome Back!</h2>
 
-        <div
-          className={clsx(
-            'flex',
-            'row',
-            'content-center',
-            'justify-center',
-            'elements-center',
-            'h-full'
-          )}
-        >
-          <Facebook width="24px" height="24px" />
-          <Google width="24px" height="24px" />
-          <Linkedin width="24px" height="24px" />
-        </div>
+        <Social />
 
-        <form>
+        <form className={clsx('mt-5', 'justify-center', 'items-center')}>
+          <Input
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            type="email"
+            id="email"
+            placeholder="john.doe@company.com"
+            required
+          />
+
           <div className={clsx('mb-6')}>
-            <label
-              htmlFor="email"
-              className={clsx(
-                'mb-2',
-                'text-sm',
-                'font-medium',
-                'text-gray-900',
-                'dark:text-white'
-              )}
-            >
-              Email address
-            </label>
-            <input
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              type="email"
-              id="email"
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder="john.doe@company.com"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Password
-            </label>
-            <input
+            <Input
               type="password"
               id="password"
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              placeholder="•••••••••"
+              placeholder="Password"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className={clsx(
+              'grid',
+              'max-w-80',
+              'w-full',
+              'mx-auto',
+              'text-white',
+              'bg-blue-600',
+              'p-3',
+              'from-cyan-500 to-blue-500 hover:bg-gradient-to-bl'
+            )}
           >
             Submit
           </button>
