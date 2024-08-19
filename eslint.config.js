@@ -31,6 +31,14 @@ export default tseslint.config(
       prettier: prettierPlugin,
       tailwindcss: tailwindcss,
     },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: './tsconfig.json',
+        },
+      },
+    },
     rules: {
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
