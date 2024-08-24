@@ -3,9 +3,30 @@ import clsx from 'clsx';
 import { ContextType } from '@pages/Auth';
 import Social from '@pages/Auth/components/Social';
 import Input from '@components/Form/Input';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  loginSchema,
+  TLoginFormData,
+} from '@services/schemaValidators/auth/loginForm.ts';
+import Button from '@components/Button';
+import Mail from '@assets/icons/Mail';
+import Lock from '@assets/icons/Lock/index.tsx';
 
 const Login = () => {
   const [email, setEmail] = useOutletContext<ContextType>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TLoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    console.log('data', data);
+  };
 
   return (
     <div
@@ -23,41 +44,38 @@ const Login = () => {
 
         <Social />
 
-        <form className={clsx('mt-5', 'justify-center', 'items-center')}>
-          <Input
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            type="email"
-            id="email"
-            placeholder="john.doe@company.com"
-            required
-          />
-
-          <div className={clsx('mb-6')}>
+        <form
+          className={clsx('mt-5', 'justify-center', 'items-center')}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className={clsx('relative', 'pb-1')}>
             <Input
-              type="password"
-              id="password"
-              placeholder="Password"
-              required
+              {...register('email')}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              type="email"
+              id="email"
+              startIcon={<Mail />}
+              placeholder="john.doe@company.com"
+              error={errors.email?.message}
             />
           </div>
-          <button
-            type="submit"
-            className={clsx(
-              'grid',
-              'max-w-80',
-              'w-full',
-              'mx-auto',
-              'text-white',
-              'bg-blue-600',
-              'p-3',
-              'from-cyan-500 to-blue-500 hover:bg-gradient-to-bl'
-            )}
-          >
-            Submit
-          </button>
+
+          <div className={clsx('relative', 'pb-1', 'mb-6')}>
+            <Input
+              {...register('password')}
+              type="password"
+              id="password"
+              startIcon={<Lock />}
+              placeholder="Password"
+              error={errors.password?.message}
+            />
+          </div>
+          <Button type="submit" variant="primary" size="lg">
+            Sign in
+          </Button>
         </form>
       </div>
     </div>

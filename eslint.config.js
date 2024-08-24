@@ -48,6 +48,7 @@ export default tseslint.config(
       'prettier/prettier': 'warn',
       'tailwindcss/classnames-order': 'warn',
       'tailwindcss/no-custom-classname': 'off',
+      '@typescript-eslint/consistent-type-definitions': 'off'
     },
   }
 );

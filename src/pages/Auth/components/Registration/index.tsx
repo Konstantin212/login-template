@@ -5,6 +5,8 @@ import Input from '@components/Form/Input';
 import User from '@assets/icons/User/index.tsx';
 import Mail from '@assets/icons/Mail/index.tsx';
 import Lock from '@assets/icons/Lock/index.tsx';
+import Button from '@components/Button/index.tsx';
+
 const Registration = () => {
   const [email, setEmail] = useOutletContext<ContextType>();
 
@@ -85,25 +87,12 @@ const Registration = () => {
               .
             </label>
           </div>
-          <button
-            type="submit"
-            className={clsx(
-              'grid',
-              'max-w-80',
-              'w-full',
-              'mx-auto',
-              'text-white',
-              'bg-blue-600',
-              'p-3',
-              'from-cyan-500 to-blue-500 hover:bg-gradient-to-bl'
-            )}
-          >
-            Submit
-          </button>
+          <Button type="submit" variant="primary" size="lg">
+            Sign up
+          </Button>
         </form>
       </div>
     </div>
   );
 };
-
 export default Registration;

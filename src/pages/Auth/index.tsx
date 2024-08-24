@@ -1,6 +1,7 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import clsx from 'clsx';
+import Button from '../../components/Button';
 
 export type ContextType = [
   string,
@@ -36,27 +37,9 @@ const Auth = () => {
           <p className={clsx('text-lg', 'mb-9')}>
             To keep connected with us please login with your personal info
           </p>
-          <Link
-            to="/registration"
-            className={clsx(
-              'my-5',
-              'flex',
-              'justify-center',
-              'rounded-xl',
-              'p-3',
-              'border-2',
-              'border-solid',
-              'border-white',
-              'text-white',
-              'hover:bg-white',
-              'hover:border-blue-400',
-              'hover:text-blue-600',
-              'max-w-80',
-              'mx-auto'
-            )}
-          >
+          <Button to="/registration" variant="secondary">
             Registration
-          </Link>
+          </Button>
         </div>
       </div>
       <Outlet context={[email, setEmail]} />
