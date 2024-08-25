@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { forwardRef, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 
 const Sizes = {
   sm: 'sm',
@@ -12,18 +12,25 @@ const Sizes = {
 type TButtonSizes = keyof typeof Sizes;
 type TButtonVariants = 'primary' | 'secondary';
 
-type TButtonProps = React.PropsWithChildren &
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > & {
-    className?: string;
-    variant?: TButtonVariants;
-    to?: string; // Optional 'to' prop of type string
-    size?: TButtonSizes;
-    onClick?: () => void; // Optional onClick event handler
-    // Other props based on your use case (e.g., type, disabled, etc.)
-  };
+// Define two separate prop types
+type TAnchorButtonProps = {
+  to: string; // 'to' prop signifies that it's a link
+  className?: string;
+  size?: TButtonSizes;
+  variant?: TButtonVariants;
+} & LinkProps; // Include LinkProps for react-router Link
+
+type TRegularButtonProps = {
+  to?: never; // Explicitly state that 'to' is not provided
+  className?: string;
+  size?: TButtonSizes;
+  variant?: TButtonVariants;
+} & React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>; // Include button props
+
+type TButtonProps = TAnchorButtonProps | TRegularButtonProps;
 
 const primaryClasses = clsx(
   'text-white',
@@ -51,14 +58,7 @@ const fullButtonSize = clsx('max-w-none');
 
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, TButtonProps>(
   (
-    {
-      children,
-      className,
-      variant = 'primary',
-      size = Sizes.full,
-      to,
-      ...props
-    },
+    { children, className, type, variant = 'primary', size, to, ...props },
     ref
   ) => {
     const buttonSizes = useMemo(() => {
@@ -97,25 +97,29 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, TButtonProps>(
 
     // Conditionally render Link if 'to' prop is provided
     if (to) {
+      const linkProps = {
+        ...(props as TAnchorButtonProps),
+        to,
+        className: commonClasses, // Correctly forward ref when using Link
+      };
       return (
-        <Link
-          to={to}
-          ref={ref as React.Ref<HTMLAnchorElement>} // Correctly forward ref when using Link
-          className={commonClasses}
-          {...props}
-        >
+        <Link ref={ref as React.Ref<HTMLAnchorElement>} {...linkProps}>
           {children}
         </Link>
       );
     }
 
+    const buttonProps = {
+      ...(props as TRegularButtonProps), // Cast to TRegularButtonProps
+      className: commonClasses,
+      type: type as React.ButtonHTMLAttributes<HTMLButtonElement>['type'], // Explicitly cast type if needed
+    };
+
     // Render a regular button if 'to' prop is not provided
     return (
       <button
-        type="button"
         ref={ref as React.Ref<HTMLButtonElement>} // Correctly forward ref when using button
-        className={commonClasses}
-        {...props}
+        {...buttonProps}
       >
         {children}
       </button>
