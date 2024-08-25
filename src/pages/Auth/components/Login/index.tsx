@@ -24,6 +24,8 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const { onChange, ...inputProps } = register('email');
+
   const onSubmit: SubmitHandler<TLoginFormData> = (data) => {
     console.log('data', data);
   };
@@ -32,8 +34,6 @@ const Login = () => {
     setEmail(e.target.value);
     void onChange(e);
   };
-
-  const { onChange, ...inputProps } = register('email');
 
   return (
     <div
