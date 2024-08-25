@@ -24,9 +24,16 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<TLoginFormData> = (data) => {
     console.log('data', data);
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    void onChange(e);
+  };
+
+  const { onChange, ...inputProps } = register('email');
 
   return (
     <div
@@ -50,11 +57,9 @@ const Login = () => {
         >
           <div className={clsx('relative', 'pb-1')}>
             <Input
-              {...register('email')}
+              {...inputProps}
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={handleChange}
               type="email"
               id="email"
               startIcon={<Mail />}
@@ -66,7 +71,7 @@ const Login = () => {
           <div className={clsx('relative', 'pb-1', 'mb-6')}>
             <Input
               {...register('password')}
-              type="password"
+              type="text"
               id="password"
               startIcon={<Lock />}
               placeholder="Password"
