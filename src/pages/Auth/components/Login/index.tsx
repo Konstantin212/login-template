@@ -11,7 +11,9 @@ import {
 } from '@services/schemaValidators/auth/loginForm.ts';
 import Button from '@components/Button';
 import Mail from '@assets/icons/Mail';
-import Lock from '@assets/icons/Lock/index.tsx';
+import PasswordInput from '@components/PasswordInput';
+import List from '@components/List';
+import ListItem from '@components/ListItem';
 
 const Login = () => {
   const [email, setEmail] = useOutletContext<ContextType>();
@@ -24,15 +26,12 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const { onChange, ...inputProps } = register('email');
-
   const onSubmit: SubmitHandler<TLoginFormData> = (data) => {
     console.log('data', data);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    void onChange(e);
   };
 
   return (
@@ -48,16 +47,14 @@ const Login = () => {
     >
       <div className={clsx('grid', 'max-w-screen-sm', 'w-full')}>
         <h2 className={clsx('mb-4', 'text-5xl')}>Welcome Back!</h2>
-
         <Social />
-
         <form
           className={clsx('mt-5', 'justify-center', 'items-center')}
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className={clsx('relative', 'pb-1')}>
             <Input
-              {...inputProps}
+              {...register('email')}
               value={email}
               onChange={handleChange}
               type="email"
@@ -67,17 +64,17 @@ const Login = () => {
               error={errors.email?.message}
             />
           </div>
-
-          <div className={clsx('relative', 'pb-1', 'mb-6')}>
-            <Input
-              {...register('password')}
-              type="text"
-              id="password"
-              startIcon={<Lock />}
-              placeholder="Password"
-              error={errors.password?.message}
-            />
+          <div className={clsx('relative', 'pb-1')}>
+            <PasswordInput register={register} errors={errors} />
           </div>
+
+          <List>
+            <ListItem>At least 1 uppercase</ListItem>
+            <ListItem>At least 1 lowercase</ListItem>
+            <ListItem>At least 1 symbol</ListItem>
+            <ListItem>At least 1 number</ListItem>
+          </List>
+
           <Button type="submit" variant="primary" size="lg">
             Sign in
           </Button>

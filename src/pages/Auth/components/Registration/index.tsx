@@ -39,6 +39,7 @@ const Registration = () => {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
+            {...register('email')}
             type="email"
             id="email"
             startIcon={<Mail />}

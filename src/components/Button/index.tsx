@@ -9,8 +9,14 @@ const Sizes = {
   full: 'full',
 } as const;
 
+const Variants = {
+  primary: 'primary',
+  secondary: 'secondary',
+  transparent: 'transparent',
+} as const;
+
 type TButtonSizes = keyof typeof Sizes;
-type TButtonVariants = 'primary' | 'secondary';
+type TButtonVariants = keyof typeof Variants;
 
 // Define two separate prop types
 type TAnchorButtonProps = {
@@ -37,8 +43,7 @@ const primaryClasses = clsx(
   'bg-blue-600',
   'from-cyan-500',
   'to-blue-500',
-  'hover:bg-gradient-to-bl',
-  'transition'
+  'hover:bg-gradient-to-bl'
 );
 
 const secondaryClasses = clsx(
@@ -51,16 +56,15 @@ const secondaryClasses = clsx(
   'hover:text-blue-600'
 );
 
+const transparentClasses = clsx('bg-transparent', 'hover:border-transparent');
+
 const smButtonSize = clsx('max-w-20');
 const mdButtonSize = clsx('max-w-40');
 const lgButtonSize = clsx('max-w-80');
 const fullButtonSize = clsx('max-w-none');
 
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, TButtonProps>(
-  (
-    { children, className, type, variant = 'primary', size, to, ...props },
-    ref
-  ) => {
+  ({ children, className, type, variant, size, to, ...props }, ref) => {
     const buttonSizes = useMemo(() => {
       switch (size) {
         case Sizes.sm:
@@ -74,6 +78,17 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, TButtonProps>(
       }
     }, [size]);
 
+    const buttonVariants = useMemo(() => {
+      switch (variant) {
+        case Variants.transparent:
+          return transparentClasses;
+        case Variants.secondary:
+          return secondaryClasses;
+        default:
+          return primaryClasses;
+      }
+    }, [variant]);
+
     // Define common classes for both Link and button
     const commonClasses = clsx(
       'flex',
@@ -82,15 +97,10 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, TButtonProps>(
       'p-3',
       'border-2',
       'border-solid',
-      'border-white',
-      'text-white',
-      'hover:bg-white',
-      'hover:border-blue-400',
-      'hover:text-blue-600',
       'mx-auto',
       'w-full',
       'transition',
-      variant === 'primary' ? primaryClasses : secondaryClasses,
+      buttonVariants,
       buttonSizes,
       className // Add any extra classNames passed via props
     );
